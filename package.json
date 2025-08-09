@@ -1,6 +1,7 @@
 {
   "name": "ruhma-portfolio",
   "private": true,
+  "homepage": "https://ruhmahashmi.github.io/portfolio",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
