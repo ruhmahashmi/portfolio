@@ -1,0 +1,32 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+.build/
+.vite/
+out/
+
+# npm/yarn/lock files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Mac system files
+.DS_Store
+
+# Env/local config
+.env
+.env.* 
+*.local
+
+# VSCode and JetBrains project files (optional)
+.vscode/
+.idea/
+
+# Log files
+*.log
+
+# Misc
+coverage/
