@@ -2,7 +2,7 @@ import React from "react";
 
 // Update image location:
 // Place your avatar at ./src/assets/pfp.png or /public/pfp.png
-const avatar = "./src/assets/pfp.png";
+const avatar = "/pfp.png";
 
 const highlights = [
   {

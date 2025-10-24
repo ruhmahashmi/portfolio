@@ -3,7 +3,7 @@ import React, { useState } from "react";
 // Profile meta
 const profile = {
   username: "ruhmahashmi",
-  avatar: "./src/assets/pfp.png",
+  avatar: "/pfp.png",
   profileUrl: "https://www.linkedin.com/in/ruhmahashmi/"
 };
 
@@ -11,7 +11,7 @@ const profile = {
 const posts = [
   {
     id: 1,
-    img: "./src/assets/AILA.png",
+    img: "/AILA.png",
     title: "AILA – Lecturing Assistant",
     date: "May 2025 – Present",
     caption: "Production-ready AI web platform for educators, powering dynamic concept extraction, MCQ generation, and knowledge graph analytics. Improved assessment quality across 450+ questions! 🌟",
@@ -22,7 +22,7 @@ const posts = [
   },
   {
     id: 2,
-    img: "./src/assets/8AM.png",
+    img: "/8AM.png",
     title: "8AM – Course Scheduler",
     date: "Jan – Jun 2025",
     caption: "Full-stack platform generating personalized Drexel timetables with real-time conflict validation and responsive PDF export. Streamlined course planning for students. 📅",
@@ -33,7 +33,7 @@ const posts = [
   },
   {
     id: 3,
-    img: "./src/assets/rInsight.png",
+    img: "/rInsight.png",
     title: "rInsight – Mental Health Dashboard",
     date: "Apr 2025",
     caption: "AI-powered dashboard analyzing live Reddit posts for crisis topic modeling, mapping Drexel resources to real-time student needs. Helping counselors respond faster! 🧠💬",
@@ -44,7 +44,7 @@ const posts = [
   },
   {
     id: 4,
-    img: "./src/assets/GreenPrompts.png",
+    img: "/GreenPrompts.png",
     title: "GreenPrompts – Chrome Extension",
     date: "Mar 2025",
     caption: "Sustainable prompt optimizer for AI models, reducing energy consumption by 15%. Won 2nd place at Philly CodeFest. 🌱",
@@ -55,7 +55,7 @@ const posts = [
   },
   {
     id: 5,
-    img: "./src/assets/Stop&Save.png",
+    img: "/Stop&Save.png",
     title: "Stop&Save – Finance Tracker",
     date: "Feb 2025",
     caption: "AI-driven tool with wishlist timer, real-time budget charts and smart spending delay system. Delivers personalized insights via chatbot. 💸🤖",
@@ -66,7 +66,7 @@ const posts = [
   },
   {
     id: 6,
-    img: "./src/assets/nourishED.png",
+    img: "/nourishED.png",
     title: "nourishED – Nutrition Platform",
     date: "Aug 2023",
     caption: "Created a nutrition monitoring web app for elders with diabetic and BP alerts — featured at WaffleHacks and top-ranked at STEMist Hacks II.",
