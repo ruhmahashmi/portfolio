@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 const stories = [
   {
-    label: "About",
+    label: "About Me",
     icon: "👩‍💻",
     color: "bg-indigo-300",
     content: (
