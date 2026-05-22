@@ -1,14 +1,647 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <title>Vite + React</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Ruhma Hashmi — CS + AI + Art</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1a1208;
+  --paper: #faf6f0;
+  --terracotta: #c4582a;
+  --terracotta-light: #e8876a;
+  --terracotta-pale: #f5e8e0;
+  --sage: #4a6741;
+  --sage-light: #8aab7e;
+  --indigo: #2d3561;
+  --gold: #b8860b;
+  --gold-pale: #f5edcc;
+  --muted: #7a6e62;
+  --border: rgba(26,18,8,0.12);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:'Cormorant Garamond',serif;
+  overflow-x:hidden;
+}
+
+/* ── CURSOR ── */
+.cursor{position:fixed;width:10px;height:10px;border-radius:50%;background:var(--terracotta);pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform 0.1s,width 0.2s,height 0.2s,opacity 0.2s;mix-blend-mode:multiply}
+.cursor-ring{position:fixed;width:36px;height:36px;border-radius:50%;border:1.5px solid var(--terracotta);pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:transform 0.15s ease-out,width 0.3s,height 0.3s,opacity 0.2s;opacity:0.5}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:1.25rem 3rem;
+  background:rgba(250,246,240,0.85);
+  backdrop-filter:blur(12px);
+  border-bottom:0.5px solid var(--border);
+}
+.nav-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:18px;letter-spacing:-0.02em;color:var(--ink);text-decoration:none}
+.nav-logo span{color:var(--terracotta)}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{font-family:'DM Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);text-decoration:none;transition:color 0.2s}
+.nav-links a:hover{color:var(--terracotta)}
+.nav-cta{font-family:'DM Mono',monospace;font-size:11px;padding:7px 16px;border:1px solid var(--terracotta);color:var(--terracotta);border-radius:2px;text-decoration:none;transition:all 0.2s}
+.nav-cta:hover{background:var(--terracotta);color:white}
+
+/* ── HERO ── */
+.hero{
+  min-height:100vh;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  align-items:center;
+  padding:8rem 3rem 4rem;
+  gap:4rem;
+  position:relative;
+}
+.hero::before{
+  content:'';
+  position:absolute;
+  top:0;right:0;
+  width:45%;height:100%;
+  background:linear-gradient(135deg,var(--terracotta-pale) 0%,var(--gold-pale) 100%);
+  z-index:0;
+}
+.hero-left{position:relative;z-index:1}
+.hero-eyebrow{font-family:'DM Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.15em;color:var(--terracotta);margin-bottom:1.5rem}
+.hero-name{font-size:clamp(52px,7vw,88px);font-weight:300;line-height:1.0;letter-spacing:-0.02em;margin-bottom:1rem}
+.hero-name strong{font-weight:600;display:block}
+.hero-name em{font-style:italic;color:var(--terracotta);display:block}
+.hero-bio{font-size:20px;font-weight:300;line-height:1.7;color:var(--muted);max-width:480px;margin-bottom:2.5rem}
+.hero-bio strong{color:var(--ink);font-weight:400}
+.hero-actions{display:flex;gap:1rem;flex-wrap:wrap;align-items:center}
+.btn-primary{font-family:'DM Mono',monospace;font-size:12px;padding:12px 28px;background:var(--terracotta);color:white;border:none;border-radius:2px;text-decoration:none;letter-spacing:0.05em;transition:all 0.2s;cursor:pointer}
+.btn-primary:hover{background:#a8441a;transform:translateY(-1px)}
+.btn-ghost{font-family:'DM Mono',monospace;font-size:12px;padding:12px 28px;background:transparent;color:var(--ink);border:1px solid var(--border);border-radius:2px;text-decoration:none;letter-spacing:0.05em;transition:all 0.2s}
+.btn-ghost:hover{border-color:var(--ink)}
+.hero-right{position:relative;z-index:1;display:flex;flex-direction:column;gap:1.5rem}
+.hero-avatar{
+  width:240px;height:240px;border-radius:50%;
+  background:linear-gradient(135deg,var(--terracotta) 0%,var(--indigo) 100%);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Syne',sans-serif;font-size:64px;font-weight:800;color:white;
+  margin:0 auto 1rem;
+  position:relative;
+  overflow:hidden;
+}
+.hero-avatar::after{
+  content:'RH';
+  position:relative;z-index:1;
+}
+.avatar-img{
+  width:260px;height:340px;border-radius:8px;
+  object-fit:cover;
+  object-position:center top;
+  margin:0 auto 1rem;
+  display:block;
+  border:3px solid white;
+  box-shadow:0 12px 48px rgba(196,88,42,0.22);
+}
+.hero-stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.hero-stat{background:white;border:0.5px solid var(--border);border-radius:4px;padding:1rem 1.25rem}
+.hero-stat-num{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:var(--terracotta);line-height:1}
+.hero-stat-label{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-top:4px}
+.hero-scroll{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.15em;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:8px;animation:bounce 2s ease-in-out infinite}
+.scroll-line{width:1px;height:40px;background:linear-gradient(var(--terracotta),transparent)}
+@keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
+
+/* ── SECTION BASE ── */
+section{padding:6rem 3rem}
+.section-header{display:flex;align-items:baseline;gap:1.5rem;margin-bottom:3.5rem}
+.section-number{font-family:'DM Mono',monospace;font-size:12px;color:var(--terracotta);letter-spacing:0.1em}
+.section-title{font-family:'Syne',sans-serif;font-size:clamp(28px,4vw,42px);font-weight:700;letter-spacing:-0.02em}
+.section-title em{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;color:var(--terracotta)}
+
+/* ── ABOUT ── */
+.about{background:var(--ink);color:var(--paper)}
+.about .section-number{color:var(--terracotta-light)}
+.about .section-title em{color:var(--terracotta-light)}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start}
+.about-text p{font-size:22px;font-weight:300;line-height:1.75;color:rgba(250,246,240,0.85);margin-bottom:1.5rem}
+.about-text p strong{color:var(--paper);font-weight:400}
+.about-aside{display:flex;flex-direction:column;gap:1.5rem}
+.aside-card{border:0.5px solid rgba(250,246,240,0.15);border-radius:4px;padding:1.25rem 1.5rem}
+.aside-card-label{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.12em;color:var(--terracotta-light);margin-bottom:0.75rem}
+.aside-card-text{font-size:16px;line-height:1.65;color:rgba(250,246,240,0.75)}
+.identity-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:2rem}
+.id-tag{font-family:'DM Mono',monospace;font-size:11px;padding:5px 12px;border:0.5px solid rgba(250,246,240,0.2);border-radius:20px;color:rgba(250,246,240,0.65)}
+
+/* ── WORK / EXPERIENCE ── */
+.work{background:var(--paper)}
+.work-list{display:flex;flex-direction:column;gap:0}
+.work-item{display:grid;grid-template-columns:200px 1fr;gap:2rem;padding:2.5rem 0;border-bottom:0.5px solid var(--border);cursor:pointer;transition:all 0.2s}
+.work-item:hover .work-title{color:var(--terracotta)}
+.work-meta{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);line-height:1.8}
+.work-meta strong{color:var(--ink);font-weight:500;display:block;margin-bottom:4px}
+.work-title{font-size:26px;font-weight:400;line-height:1.3;margin-bottom:0.75rem;transition:color 0.2s}
+.work-desc{font-size:16px;line-height:1.7;color:var(--muted);margin-bottom:1rem}
+.work-tags{display:flex;gap:6px;flex-wrap:wrap}
+.work-tag{font-family:'DM Mono',monospace;font-size:10px;padding:3px 8px;background:var(--terracotta-pale);color:var(--terracotta);border-radius:2px}
+
+/* ── PROJECTS ── */
+.projects{background:var(--gold-pale)}
+.projects-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.project-card{background:white;border:0.5px solid var(--border);border-radius:4px;padding:2rem;display:flex;flex-direction:column;transition:transform 0.25s,box-shadow 0.25s;position:relative;overflow:hidden}
+.project-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--terracotta);transform:scaleX(0);transform-origin:left;transition:transform 0.3s}
+.project-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(196,88,42,0.12)}
+.project-card:hover::before{transform:scaleX(1)}
+.project-flag{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--terracotta);margin-bottom:0.5rem}
+.project-name{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;margin-bottom:0.75rem;line-height:1.2}
+.project-desc{font-size:15px;line-height:1.7;color:var(--muted);flex:1;margin-bottom:1.5rem}
+.project-tech{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:1.25rem}
+.project-tech span{font-family:'DM Mono',monospace;font-size:10px;padding:2px 8px;background:var(--terracotta-pale);color:var(--terracotta);border-radius:2px}
+.project-link{font-family:'DM Mono',monospace;font-size:11px;color:var(--ink);text-decoration:none;letter-spacing:0.05em;border-bottom:1px solid var(--border);padding-bottom:2px;transition:border-color 0.2s;align-self:flex-start}
+.project-link:hover{border-color:var(--terracotta);color:var(--terracotta)}
+.project-card.featured{grid-column:span 2}
+.project-card.featured .project-name{font-size:26px}
+.project-card.featured .project-desc{font-size:17px}
+
+/* ── PUBLICATIONS ── */
+.publications{background:var(--paper)}
+.pub-list{display:flex;flex-direction:column;gap:0}
+.pub-item{display:grid;grid-template-columns:100px 1fr;gap:2rem;padding:2rem 0;border-bottom:0.5px solid var(--border)}
+.pub-year{font-family:'DM Mono',monospace;font-size:13px;color:var(--terracotta);font-weight:500;padding-top:4px}
+.pub-venue-badge{display:inline-block;font-family:'DM Mono',monospace;font-size:10px;padding:3px 8px;background:var(--sage-light);color:white;border-radius:2px;margin-bottom:0.5rem;letter-spacing:0.05em}
+.pub-title{font-size:20px;font-weight:400;line-height:1.4;margin-bottom:0.5rem}
+.pub-title em{font-style:italic;color:var(--muted)}
+.pub-impact{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);margin-top:0.5rem}
+.pub-impact strong{color:var(--terracotta)}
+.pub-arxiv{font-family:'DM Mono',monospace;font-size:11px;color:var(--indigo);text-decoration:none;border-bottom:1px solid var(--border);padding-bottom:1px}
+
+/* ── AWARDS ── */
+.awards{background:var(--ink);color:var(--paper)}
+.awards-marquee-wrap{overflow:hidden;margin:0 -3rem;padding:2rem 0;border-top:0.5px solid rgba(250,246,240,0.1);border-bottom:0.5px solid rgba(250,246,240,0.1);margin-bottom:3.5rem}
+.awards-marquee{display:flex;gap:3rem;white-space:nowrap;animation:marquee 20s linear infinite}
+.awards-marquee:hover{animation-play-state:paused}
+.marquee-item{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(250,246,240,0.35);flex-shrink:0}
+.marquee-item.highlight{color:var(--terracotta-light)}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.awards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1px;background:rgba(250,246,240,0.1)}
+.award-item{background:var(--ink);padding:2rem 1.75rem;transition:background 0.2s}
+.award-item:hover{background:rgba(196,88,42,0.1)}
+.award-amount{font-family:'Syne',sans-serif;font-size:32px;font-weight:800;color:var(--terracotta-light);margin-bottom:0.25rem}
+.award-name{font-size:17px;font-weight:400;color:var(--paper);margin-bottom:0.25rem;line-height:1.3}
+.award-org{font-family:'DM Mono',monospace;font-size:11px;color:rgba(250,246,240,0.45);letter-spacing:0.05em}
+
+/* ── CREATIVE ── */
+.creative{background:var(--terracotta-pale)}
+.creative-inner{max-width:700px}
+.creative-quote{font-size:clamp(26px,4vw,46px);font-weight:300;line-height:1.4;font-style:italic;margin-bottom:2rem;color:var(--ink)}
+.creative-quote strong{font-weight:600;font-style:normal;color:var(--terracotta)}
+.creative-sub{font-size:18px;line-height:1.7;color:var(--muted);margin-bottom:2.5rem}
+.creative-links{display:flex;gap:1rem;flex-wrap:wrap}
+.creative-link{font-family:'DM Mono',monospace;font-size:12px;padding:10px 20px;border:1px solid var(--terracotta);color:var(--terracotta);border-radius:2px;text-decoration:none;transition:all 0.2s;letter-spacing:0.05em}
+.creative-link:hover{background:var(--terracotta);color:white}
+
+/* ── SKILLS ── */
+.skills{background:var(--paper)}
+.skills-groups{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:2.5rem}
+.skill-group-label{font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.15em;color:var(--terracotta);margin-bottom:1rem;padding-bottom:0.5rem;border-bottom:1px solid var(--border)}
+.skill-list{display:flex;flex-direction:column;gap:8px}
+.skill-item{font-size:16px;font-weight:300;color:var(--ink);padding:0;display:flex;align-items:center;gap:8px}
+.skill-item::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--terracotta);flex-shrink:0}
+
+/* ── CONTACT ── */
+.contact{background:var(--indigo);color:white;text-align:center;padding:8rem 3rem}
+.contact-eyebrow{font-family:'DM Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.15em;color:rgba(255,255,255,0.45);margin-bottom:1.5rem}
+.contact-heading{font-size:clamp(36px,6vw,72px);font-weight:300;line-height:1.1;margin-bottom:1.5rem}
+.contact-heading em{font-style:italic;color:var(--terracotta-light)}
+.contact-sub{font-size:18px;color:rgba(255,255,255,0.6);margin-bottom:3rem;max-width:500px;margin-left:auto;margin-right:auto}
+.contact-links{display:flex;justify-content:center;gap:1rem;flex-wrap:wrap;margin-bottom:4rem}
+.contact-link{font-family:'DM Mono',monospace;font-size:12px;padding:12px 24px;border:0.5px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.8);text-decoration:none;border-radius:2px;transition:all 0.2s;letter-spacing:0.05em}
+.contact-link:hover{border-color:var(--terracotta-light);color:white;background:rgba(196,88,42,0.15)}
+.contact-link.primary{background:var(--terracotta);border-color:var(--terracotta);color:white}
+.contact-link.primary:hover{background:#a8441a}
+.contact-footer{font-family:'DM Mono',monospace;font-size:11px;color:rgba(255,255,255,0.25);letter-spacing:0.08em}
+
+/* ── REVEAL ANIMATIONS ── */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity 0.7s ease,transform 0.7s ease}
+.reveal.visible{opacity:1;transform:none}
+.reveal-delay-1{transition-delay:0.1s}
+.reveal-delay-2{transition-delay:0.2s}
+.reveal-delay-3{transition-delay:0.3s}
+.reveal-delay-4{transition-delay:0.4s}
+
+/* ── PHOTO PLACEHOLDER ── */
+.photo-wrap{text-align:center;margin-bottom:1.5rem}
+.photo-note{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);margin-top:0.5rem;letter-spacing:0.05em}
+
+/* MOBILE */
+@media(max-width:768px){
+  nav{padding:1rem 1.5rem}
+  .nav-links{display:none}
+  .hero{grid-template-columns:1fr;padding:6rem 1.5rem 3rem;gap:2rem}
+  .hero::before{width:100%;height:50%;top:auto;bottom:0}
+  .hero-right{order:-1}
+  .hero-avatar,.avatar-img{width:160px;height:160px;font-size:42px}
+  .hero-stats-grid{grid-template-columns:1fr 1fr}
+  section{padding:4rem 1.5rem}
+  .about-grid,.work-item{grid-template-columns:1fr}
+  .projects-grid{grid-template-columns:1fr}
+  .project-card.featured{grid-column:span 1}
+  .pub-item{grid-template-columns:60px 1fr}
+  .awards-grid{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">R<span>.</span>H</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#publications">Research</a></li>
+    <li><a href="#creative">Creative</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="mailto:rh927@drexel.edu" class="nav-cta">Say hello →</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-left">
+    <div class="hero-eyebrow reveal">cs + ai · drexel university · philadelphia · 🇵🇰</div>
+    <h1 class="hero-name reveal reveal-delay-1">
+      Ruhma
+      <strong>Hashmi</strong>
+      <em>researcher. builder. artist.</em>
+    </h1>
+    <p class="hero-bio reveal reveal-delay-2">
+      <strong>Building AI that makes education better.</strong> I write research papers, build full-stack tools, and paint watercolors — sometimes all in the same week.
+    </p>
+    <div class="hero-actions reveal reveal-delay-3">
+      <a href="#projects" class="btn-primary">View my work</a>
+      <a href="#publications" class="btn-ghost">Read my research</a>
+    </div>
+  </div>
+  <div class="hero-right reveal reveal-delay-2">
+    <div class="photo-wrap">
+      <img class="avatar-img" src="ruhma_presenting.jpg" alt="Ruhma Hashmi presenting AILA research at Drexel Student Showcase 2026"/>
+    </div>
+    <div class="hero-stats-grid">
+      <div class="hero-stat">
+        <div class="hero-stat-num">3×</div>
+        <div class="hero-stat-label">Published</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">$274K</div>
+        <div class="hero-stat-label">Awarded</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">5+</div>
+        <div class="hero-stat-label">Projects</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">CS'29</div>
+        <div class="hero-stat-label">Drexel</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    scroll
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="section-header reveal">
+    <span class="section-number">01</span>
+    <h2 class="section-title" style="color:#faf6f0">About <em>me</em></h2>
+  </div>
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p>I'm a <strong>CS + AI student at Drexel University</strong> (Class of 2029), on a full-ride Global Scholars Scholarship. I came to Philadelphia from Pakistan chasing a specific kind of ambition — the kind that doesn't fit neatly in one box.</p>
+      <p>By day I'm a <strong>research developer and data AI co-op</strong>. My work lives at the intersection of knowledge graphs, large language models, and the genuinely hard question of how people learn.</p>
+      <p>By night — and on weekends — I paint, photograph, and find ways to make the world look the way it feels inside my head.</p>
+    </div>
+    <div class="about-aside reveal reveal-delay-1">
+      <div class="aside-card">
+        <div class="aside-card-label">Currently</div>
+        <div class="aside-card-text">Data AI & Analytics Co-op @ True Search<br>Research Developer (AILA) @ Drexel CCI</div>
+      </div>
+      <div class="aside-card">
+        <div class="aside-card-label">Education</div>
+        <div class="aside-card-text">Honors B.S. Computer Science<br>Minor: Artificial Intelligence & Learning<br>Drexel University · June 2029</div>
+      </div>
+      <div class="aside-card">
+        <div class="aside-card-label">Open to</div>
+        <div class="aside-card-text">AI/ML · SWE · Research roles<br>2026 internships & co-ops</div>
+      </div>
+      <div class="identity-tags">
+        <span class="id-tag">researcher</span>
+        <span class="id-tag">builder</span>
+        <span class="id-tag">painter</span>
+        <span class="id-tag">photographer</span>
+        <span class="id-tag">pakistani</span>
+        <span class="id-tag">international student</span>
+        <span class="id-tag">cs girly</span>
+        <span class="id-tag">philly</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WORK -->
+<section class="work" id="work">
+  <div class="section-header reveal">
+    <span class="section-number">02</span>
+    <h2 class="section-title">Work <em>experience</em></h2>
+  </div>
+  <div class="work-list">
+    <div class="work-item reveal">
+      <div class="work-meta">
+        <strong>True Search</strong>
+        Mar 2026 – Present<br>Philadelphia, PA<br>Co-op
+      </div>
+      <div>
+        <h3 class="work-title">Data, AI & Analytics Co-op</h3>
+        <p class="work-desc">Automated recruiting intelligence tools, rebuilt BI dashboards (55 Salesforce-backed cards), and designed human-in-the-loop workflows so stakeholders could review AI-generated outputs. Built Slack → Google Sheets pipelines to transform unstructured candidate texts into structured data.</p>
+        <div class="work-tags"><span class="work-tag">n8n</span><span class="work-tag">Domo</span><span class="work-tag">Snowflake</span><span class="work-tag">SQL</span><span class="work-tag">Gemini API</span></div>
+      </div>
+    </div>
+    <div class="work-item reveal">
+      <div class="work-meta">
+        <strong>Drexel CCI</strong>
+        May 2025 – Present<br>Philadelphia, PA<br>Research
+      </div>
+      <div>
+        <h3 class="work-title">Research Developer — AILA</h3>
+        <p class="work-desc">Architected a full-stack AI lecturing assistant that automates high-quality assessment generation from lecture slides. Engineered a RAG pipeline that transforms raw PDFs into hierarchical Knowledge Graphs. Co-authored 3 peer-reviewed publications, including an accepted paper at SIGCSE 2026.</p>
+        <div class="work-tags"><span class="work-tag">RAG</span><span class="work-tag">Knowledge Graphs</span><span class="work-tag">LlamaIndex</span><span class="work-tag">FastAPI</span><span class="work-tag">NLP</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section class="projects" id="projects">
+  <div class="section-header reveal">
+    <span class="section-number">03</span>
+    <h2 class="section-title">Selected <em>projects</em></h2>
+  </div>
+  <div class="projects-grid">
+    <div class="project-card featured reveal">
+      <div class="project-flag">⭐ Flagship · Ongoing</div>
+      <h3 class="project-name">AILA — Intelligent Lecturing Assistant</h3>
+      <p class="project-desc">Full-stack AI system automating high-quality MCQ generation from lecture slides. Multi-stage ETL pipeline models prerequisite relationships as a Directed Acyclic Graph. Interactive Human-in-the-Loop concept map editor for real-time instructor verification. KG-based approach outperforms standard generation by 5% accuracy across 450+ evaluated questions.</p>
+      <div class="project-tech"><span>React</span><span>Next.js</span><span>FastAPI</span><span>LlamaIndex</span><span>Gemini</span><span>SQLite</span></div>
+      <a href="https://github.com/ruhmahashmi/AILA" target="_blank" class="project-link">View on GitHub →</a>
+    </div>
+    <div class="project-card reveal reveal-delay-1">
+      <div class="project-flag">🥈 Philly Codefest 2nd Place</div>
+      <h3 class="project-name">GreenPrompts</h3>
+      <p class="project-desc">Chrome extension that optimizes AI prompts for energy efficiency. Won 2nd place among 90+ competing teams at Philly Codefest 2025.</p>
+      <div class="project-tech"><span>Node.js</span><span>Gemini API</span><span>Chrome APIs</span></div>
+      <a href="https://devpost.com/ruhmahashmi" target="_blank" class="project-link">View on Devpost →</a>
+    </div>
+    <div class="project-card reveal reveal-delay-1">
+      <div class="project-flag">Mental Health Tech</div>
+      <h3 class="project-name">rInsight</h3>
+      <p class="project-desc">Real-time Reddit mental health dashboard for Drexel counselors. NLP topic modeling + Gemini AI maps crisis signals from r/Drexel posts to campus resources.</p>
+      <div class="project-tech"><span>React</span><span>Flask</span><span>Praw</span><span>Gemini AI</span><span>Chart.js</span></div>
+      <a href="https://github.com/ruhmahashmi" target="_blank" class="project-link">GitHub →</a>
+    </div>
+    <div class="project-card reveal reveal-delay-2">
+      <div class="project-flag">Web App · Agile</div>
+      <h3 class="project-name">8AM — Course Scheduler</h3>
+      <p class="project-desc">Personalized timetable generator for Drexel students with real-time conflict validation, PDF exports, and calendar integration.</p>
+      <div class="project-tech"><span>Flask</span><span>HTML/CSS/JS</span><span>SQLite</span><span>Python</span></div>
+      <a href="https://github.com/ruhmahashmi" target="_blank" class="project-link">GitHub →</a>
+    </div>
+  </div>
+</section>
+
+<!-- PUBLICATIONS -->
+<section class="publications" id="publications">
+  <div class="section-header reveal">
+    <span class="section-number">04</span>
+    <h2 class="section-title">Research <em>publications</em></h2>
+  </div>
+  <div class="pub-list">
+    <div class="pub-item reveal">
+      <div class="pub-year">2026</div>
+      <div>
+        <span class="pub-venue-badge">SIGCSE 2026 · Accepted</span>
+        <p class="pub-title">"Scaling Retrieval Practice with LLMs: Improving Multiple Choice Question Quality through Knowledge Graphs"</p>
+        <p class="pub-impact">R. Hashmi, Y. An · <strong>Outperformed raw generation across 15 quality criteria</strong> for formative assessments</p>
+      </div>
+    </div>
+    <div class="pub-item reveal">
+      <div class="pub-year">2025</div>
+      <div>
+        <span class="pub-venue-badge">IEEE Big Data 2025</span>
+        <p class="pub-title">"Rate-Distortion Guided Knowledge Graph Construction from Lecture Notes Using Gromov-Wasserstein Optimal Transport"</p>
+        <p class="pub-impact">R. Hashmi, Y. An, et al. · <a href="https://arxiv.org/abs/2511.14595" class="pub-arxiv" target="_blank">arXiv:2511.14595</a> · <strong>Proposed RD-theory framework for compact, information-preserving KGs</strong></p>
+      </div>
+    </div>
+    <div class="pub-item reveal">
+      <div class="pub-year">2025</div>
+      <div>
+        <span class="pub-venue-badge">arXiv · July 2025</span>
+        <p class="pub-title">"Enhancing Student Learning with LLM-Generated Retrieval Practice Questions"</p>
+        <p class="pub-impact">R. Hashmi, Y. An, et al. · <a href="https://arxiv.org/abs/2507.05629" class="pub-arxiv" target="_blank">arXiv:2507.05629</a> · <strong>16% increase in knowledge retention</strong> in 60-student study</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AWARDS -->
+<section class="awards" id="awards">
+  <div class="section-header reveal">
+    <span class="section-number">05</span>
+    <h2 class="section-title" style="color:#faf6f0">Honors <em>& awards</em></h2>
+  </div>
+  <div class="awards-marquee-wrap">
+    <div class="awards-marquee" id="marquee">
+      <span class="marquee-item highlight">$264K Global Scholars</span>
+      <span class="marquee-item">·</span>
+      <span class="marquee-item highlight">SIGCSE 2026</span>
+      <span class="marquee-item">·</span>
+      <span class="marquee-item">WICT STEM $4K</span>
+      <span class="marquee-item">·</span>
+      <span class="marquee-item highlight">Philly Codefest 2nd</span>
+      <span class="marquee-item">·</span>
+      <span class="marquee-item">STAR Scholar</span>
+      <span class="marquee-item">·</span>
+      <span class="marquee-item highlight">Frances Velay Fellow</span>
+      <span class="marquee-item">·</span>
+      <span class="marquee-item">IEEE Big Data 2025</span>
+      <span class="marquee-item">·</span>
+      <span class="marquee-item highlight">$264K Global Scholars</span>
+      <span class="marquee-item">·</span>
+      <span class="marquee-item highlight">SIGCSE 2026</span>
+      <span class="marquee-item">·</span>
+      <span class="marquee-item">WICT STEM $4K</span>
+      <span class="marquee-item">·</span>
+      <span class="marquee-item highlight">Philly Codefest 2nd</span>
+      <span class="marquee-item">·</span>
+      <span class="marquee-item">STAR Scholar</span>
+      <span class="marquee-item">·</span>
+      <span class="marquee-item highlight">Frances Velay Fellow</span>
+      <span class="marquee-item">·</span>
+      <span class="marquee-item">IEEE Big Data 2025</span>
+      <span class="marquee-item">·</span>
+    </div>
+  </div>
+  <div class="awards-grid reveal">
+    <div class="award-item">
+      <div class="award-amount">$264K</div>
+      <div class="award-name">Drexel Global Scholars Scholarship</div>
+      <div class="award-org">DREXEL UNIVERSITY · FULL RIDE</div>
+    </div>
+    <div class="award-item">
+      <div class="award-amount">$4K</div>
+      <div class="award-name">WICT Network STEM Scholarship</div>
+      <div class="award-org">WICT NETWORK</div>
+    </div>
+    <div class="award-item">
+      <div class="award-amount">$3.5K</div>
+      <div class="award-name">STAR Scholar & Frances Velay Fellow</div>
+      <div class="award-org">DREXEL UREP · FUNDED RESEARCH</div>
+    </div>
+    <div class="award-item">
+      <div class="award-amount">$1K</div>
+      <div class="award-name">Undergraduate Research Mini-Grant</div>
+      <div class="award-org">DREXEL UREP · AILA FUNDING</div>
+    </div>
+    <div class="award-item">
+      <div class="award-amount">🥈</div>
+      <div class="award-name">Philly Codefest 2nd Place</div>
+      <div class="award-org">GREENPROMPTSV· 90+ TEAMS · $500</div>
+    </div>
+  </div>
+</section>
+
+<!-- CREATIVE -->
+<section class="creative" id="creative">
+  <div class="section-header reveal">
+    <span class="section-number">06</span>
+    <h2 class="section-title">The <em>creative side</em></h2>
+  </div>
+  <div class="creative-inner">
+    <p class="creative-quote reveal">"I see the world in layers — <strong>code and color</strong>, logic and light, research papers and watercolor mornings."</p>
+    <p class="creative-sub reveal reveal-delay-1">Outside of CS I paint, photograph, and document life. My art explores texture, color, and the quiet beauty of everyday moments — from Lahore to Philadelphia. It's all connected: the same curiosity that drives my research drives my brushwork.</p>
+    <div class="creative-links reveal reveal-delay-2">
+      <a href="https://www.flickr.com/photos/162996932@N05/" target="_blank" class="creative-link">Art on Flickr →</a>
+      <a href="https://www.instagram.com/lifewruhma/" target="_blank" class="creative-link">Life on Instagram →</a>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section class="skills" id="skills">
+  <div class="section-header reveal">
+    <span class="section-number">07</span>
+    <h2 class="section-title">Tech <em>stack</em></h2>
+  </div>
+  <div class="skills-groups reveal">
+    <div>
+      <div class="skill-group-label">Languages</div>
+      <div class="skill-list">
+        <span class="skill-item">Python</span>
+        <span class="skill-item">JavaScript</span>
+        <span class="skill-item">Java</span>
+        <span class="skill-item">C</span>
+        <span class="skill-item">SQL</span>
+        <span class="skill-item">HTML / CSS</span>
+      </div>
+    </div>
+    <div>
+      <div class="skill-group-label">Frameworks</div>
+      <div class="skill-list">
+        <span class="skill-item">React & Next.js</span>
+        <span class="skill-item">FastAPI & Flask</span>
+        <span class="skill-item">Node.js</span>
+        <span class="skill-item">Tailwind CSS</span>
+        <span class="skill-item">Express</span>
+      </div>
+    </div>
+    <div>
+      <div class="skill-group-label">AI / ML</div>
+      <div class="skill-list">
+        <span class="skill-item">Gemini API</span>
+        <span class="skill-item">LlamaIndex</span>
+        <span class="skill-item">RAG Pipelines</span>
+        <span class="skill-item">Knowledge Graphs</span>
+        <span class="skill-item">NLP & Prompt Eng.</span>
+      </div>
+    </div>
+    <div>
+      <div class="skill-group-label">Data & Tools</div>
+      <div class="skill-list">
+        <span class="skill-item">Snowflake</span>
+        <span class="skill-item">Domo BI</span>
+        <span class="skill-item">n8n Automation</span>
+        <span class="skill-item">PostgreSQL / SQLite</span>
+        <span class="skill-item">Git & GitHub</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <p class="contact-eyebrow">Let's connect</p>
+  <h2 class="contact-heading">Let's build something<br><em>remarkable.</em></h2>
+  <p class="contact-sub">Open to AI/ML, SWE, and research roles. Always happy to talk about knowledge graphs, AI in education, art, or life between two continents.</p>
+  <div class="contact-links">
+    <a href="mailto:rh927@drexel.edu" class="contact-link primary">rh927@drexel.edu</a>
+    <a href="https://www.linkedin.com/in/ruhmahashmi/" target="_blank" class="contact-link">LinkedIn</a>
+    <a href="https://github.com/ruhmahashmi" target="_blank" class="contact-link">GitHub</a>
+    <a href="https://orcid.org/0009-0004-2415-0238" target="_blank" class="contact-link">ORCID</a>
+    <a href="https://devpost.com/ruhmahashmi" target="_blank" class="contact-link">Devpost</a>
+    <a href="https://linktr.ee/ruhmahashmi" target="_blank" class="contact-link">Linktree</a>
+  </div>
+  <p class="contact-footer">© 2026 Ruhma Hashmi · Philadelphia, PA · Built with ♥ and too much coffee</p>
+</section>
+
+<script>
+// Custom cursor
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursor-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX;my=e.clientY;
+  cursor.style.left=mx+'px';cursor.style.top=my+'px';
+});
+function animateRing(){
+  rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;
+  ring.style.left=rx+'px';ring.style.top=ry+'px';
+  requestAnimationFrame(animateRing);
+}
+animateRing();
+document.querySelectorAll('a,button').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cursor.style.width='6px';cursor.style.height='6px';ring.style.width='48px';ring.style.height='48px'});
+  el.addEventListener('mouseleave',()=>{cursor.style.width='10px';cursor.style.height='10px';ring.style.width='36px';ring.style.height='36px'});
+});
+
+// Scroll reveal
+const observer = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')});
+},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+// Kick off reveals already in view
+setTimeout(()=>{
+  document.querySelectorAll('.reveal').forEach(el=>{
+    const r=el.getBoundingClientRect();
+    if(r.top<window.innerHeight)el.classList.add('visible');
+  });
+},50);
+</script>
+</body>
 </html>
